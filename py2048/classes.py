@@ -40,6 +40,9 @@ class GameBoard:
         self.grid = [[GameCell(x_pos, y_pos) for x_pos in range(x)] for y_pos in range(y)]
         self.x_length = x
         self.y_length = y
+
+    def __repr__(self) -> str:
+        return f'{self.x_length}x{self.y_length} GameBoard'
     
     # Board Management
     def print_board(self, grid = None):
@@ -100,7 +103,9 @@ class GameBoard:
         return cell
     
     def move_pieces(self, direction: Direction):
-        """"""
+        """
+        Moves all the pieces of the board in a direction per 2048's rules
+        """
         dx, dy = direction.value
         limit = self.x_length if dx else self.y_length
 
@@ -126,6 +131,9 @@ class GameBoard:
                     cell.value = None
 
     def generate_tile(self, value: int = 2) -> bool:
+        """
+        Generates a tile randomly on an empty tile of the board
+        """
         empty_cells: list[GameCell] = []
         occupied_cells: list[GameCell] = []
         for row in self.grid:
