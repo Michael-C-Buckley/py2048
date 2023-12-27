@@ -43,6 +43,9 @@ class GameBoard:
     
     # Board Management
     def print_board(self, grid = None):
+        """
+        Prints a representation of the board out to the console
+        """
         if grid is None:
             grid = self.grid
         for row in grid:
@@ -79,6 +82,9 @@ class GameBoard:
 
     # Cell Management
     def get_cell(self, x: int, y: int) -> GameCell:
+        """
+        Returns the cell at index location
+        """
         if x+1 > self.x_length or x < 0:
             return None
         if y+1 > self.y_length or y < 0:
@@ -86,23 +92,13 @@ class GameBoard:
         return self.grid[y][x]
     
     def set_cell(self, x: int, y: int, value: int) -> GameCell:
+        """
+        Method for setting cell attributes at a location
+        """
         cell = self.grid[y][x]
         cell.value = value
         return cell
     
-    def shift_piece(self, cell: GameCell, direction: Direction):
-        dx, dy = direction.value
-        if (new_cell := self.get_cell(cell.x + dx, cell.y + dy)):
-            if not new_cell.value:
-                new_cell.value = cell.value
-                cell.value = None
-                # print(f'Move {cell.x},{cell.y} to {new_cell.x},{new_cell.y}')
-                self.shift_piece(new_cell, direction)
-            else:
-                if cell.value == new_cell.value:
-                    new_cell.value = new_cell.value * 2
-                    cell.value = None
-        
     def move_pieces(self, direction: Direction):
         """"""
         dx, dy = direction.value
