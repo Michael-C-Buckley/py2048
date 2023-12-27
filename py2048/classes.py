@@ -56,38 +56,26 @@ class GameBoard:
         """
         Returns a transformed version of the board aligned to be iterable by row
         """
-        if direction == Direction.UP:
-            board = [list(col) for col in zip(*self.grid[::-1])]
-        elif direction == Direction.DOWN:
-            board = [list(reversed(col)) for col in zip(*self.grid)]
-        elif direction == Direction.LEFT:
-            board = [row[::-1] for row in reversed(self.grid)]
-        else:
-            board = self.grid
-        return board
+        result_map = {
+            Direction.UP: lambda: [list(col) for col in zip(*self.grid[::-1])],
+            Direction.DOWN: lambda: [list(reversed(col)) for col in zip(*self.grid)],
+            Direction.LEFT: lambda: [row[::-1] for row in reversed(self.grid)],
+            Direction.RIGHT: lambda: self.grid
+        }
+        return result_map[direction]()
     
     def get_row(self, index: int, direction: Direction) -> list[GameCell]:
         """
         Returns a list of `GameCell` pieces aligned with a direction and the
         index relative to the direction supplied
         """
-        new_row: list[GameCell] = []
-        if direction == Direction.RIGHT:
-            return self.grid[index]
-        
-        elif direction == Direction.UP:
-            return [x[index] for x in self.grid]
-            for row in self.grid:
-                new_row.append(row[index])
-
-        elif direction == Direction.DOWN:
-            return [x[index] for x in reversed(self.grid)]
-            for row in reversed(self.grid):
-                new_row.append(row[index])
-
-        elif direction == Direction.LEFT:
-            return [x for x in reversed(self.grid[index])]
-    
+        result_map = {
+            Direction.RIGHT: lambda: self.grid[index],
+            Direction.LEFT: lambda: [x for x in reversed(self.grid[index])],
+            Direction.UP: lambda: [x[index] for x in reversed(self.grid)],
+            Direction.DOWN: lambda: [x[index] for x in self.grid],
+        }
+        return result_map[direction]()
 
     # Cell Management
     def get_cell(self, x: int, y: int) -> GameCell:
