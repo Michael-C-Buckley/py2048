@@ -20,6 +20,8 @@ setup(
     # long_description_content_type = 'text/markdown',
     version=VERSION,
     packages=find_packages(),
-    install_requires=[],
+    install_requires=[
+        'pygame'
+    ],
     keywords=['python','networking','network','mac','oui','ieee']
 )
