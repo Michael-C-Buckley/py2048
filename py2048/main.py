@@ -8,9 +8,10 @@ def test1(game: GameBoard):
     for i in range(4):
         for j in range(2):
             game.grid[i][j] = GameCell(j, i, 2)
-    # game.grid[0][2] = GameCell(2, 0, 4)
-    # for _ in range(10):
-    #     game.generate_tile()
+    game.grid[0][2] = GameCell(2, 0, 4)
+    for _ in range(10):
+        if not game.generate_tile():
+            break
     print('BEFORE')
     game.print_board()
 

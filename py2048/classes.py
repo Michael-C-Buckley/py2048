@@ -118,7 +118,7 @@ class GameBoard:
 
             # Condense adjacent values
             for i, value in enumerate(row_values):
-                if i < len(row_values): 
+                if i+1 < len(row_values): 
                     if value == row_values[i+1]:
                         row_values[i] = value + row_values.pop(i+1)
                 
@@ -129,7 +129,7 @@ class GameBoard:
                 else:
                     cell.value = None
 
-    def generate_tile(self, value: int = 2):
+    def generate_tile(self, value: int = 2) -> bool:
         empty_cells: list[GameCell] = []
         occupied_cells: list[GameCell] = []
         for row in self.grid:
@@ -139,6 +139,10 @@ class GameBoard:
                 else:
                     occupied_cells.append(cell)
 
-        random = randint(0, len(empty_cells)) - 1
-        random_cell = empty_cells[random]
-        random_cell.value = value
+        if empty_cells:
+            random = randint(0, len(empty_cells)) - 1
+            random_cell = empty_cells[random]
+            random_cell.value = value
+            return True
+        else:
+            return False
