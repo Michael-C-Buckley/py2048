@@ -56,6 +56,11 @@ while running:
             if event.key in key_mapping:
                 game_board.move_pieces(key_mapping[event.key])
                 game_board.generate_tile()
+                
+                if game_board.check_game_over():
+                    print('GAME OVER')
+                    running = False
+                    
 
     # Draw the game board
     screen.fill(BACKGROUND_COLOR)

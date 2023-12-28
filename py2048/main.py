@@ -4,6 +4,9 @@
 # Python Modules
 from random import randint
 
+# Third-Party Modules
+# from icecream import ic
+
 # Local Modules
 from py2048.classes import GameBoard, GameCell, Direction
 
@@ -35,31 +38,25 @@ def test1(board: GameBoard):
         for j in range(2):
             value = 2 if j else 4
             board.set_cell(i, j, value)
-    # game.grid[0][2] = GameCell(2, 0, 4)
-    # for _ in range(10):
-    #     if not game.generate_tile():
-    #         break
     
     moves = ['r', 'd', 'd', 'd']
 
     perform_moves(board, moves)
 
 def test2(board: GameBoard):
-    board.grid[0][2] = GameCell(2, 0, 8)
-    for _ in range(10):
-        board.generate_tile()
-    print('BEFORE')
+    board.fill_grid(2)
     board.print_board()
+    checks = [board.check_valid_move(i) for i in Direction if i is True]
+    if not checks:
+        print('GAME OVER')
+    else:
+        print('PASSED')
 
-    print('UP')
-    board.print_board(board.get_rotated_board(Direction.UP))
-
-    print('LEFT')
-    board.print_board(board.get_rotated_board(Direction.LEFT))
-
-    print('RIGHT')
-    board.print_board(board.get_rotated_board(Direction.RIGHT))
+def test3(board: GameBoard):
+    board.fill_grid(4)
+    print(board.check_game_over())
 
 if __name__ == '__main__':
     board = GameBoard()
-    test1(board)
+    # test2(board)
+    test3(board)

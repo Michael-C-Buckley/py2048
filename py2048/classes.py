@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from enum import Enum
 from random import randint
 
+
 class Direction(Enum):
     UP = (0, 1)
     DOWN = (0, -1)
@@ -56,7 +57,6 @@ class GameBoard:
         max_width = None
         if max_value:
             max_width = len(str(max_value))
-            
         
         for row in grid:
             row_string = '|'
@@ -90,6 +90,29 @@ class GameBoard:
             Direction.DOWN: lambda: [x[index] for x in self.grid],
         }
         return result_map[direction]()
+    
+    def fill_grid(self, value: int|bool = None) -> None:
+        """
+        Fill the grid with value(s)
+
+        Value Info:
+        * `int` will fill with that value
+        * `None` will clear the grid, an int will fill with that amount,
+        * `True` will fill with random values between 2 and 2048
+        * `False` will fill with random values, mainly for testing
+        """
+        case_dict = {
+            True: lambda: 2**(randint(1,11)),
+            False: lambda: randint(1,10000),
+            None: lambda: None
+        }
+        
+        for row in self.grid:
+            for cell in row:
+                if (func := case_dict.get(value)):
+                    cell.value = func()
+                else:
+                    cell.value = value
 
     # Cell Management
     def get_cell(self, x: int, y: int) -> GameCell:
@@ -145,8 +168,10 @@ class GameBoard:
         """
         if value is None:
             value = 4 if randint(1,10) == 10 else 2
+
         empty_cells: list[GameCell] = []
         occupied_cells: list[GameCell] = []
+
         for row in self.grid:
             for cell in row:
                 if cell.value is None:
@@ -179,3 +204,52 @@ class GameBoard:
                         max_value = cell.value
 
         return max_value
+
+    def check_valid_move(self, direction: Direction) -> bool:
+        """
+        Returns bool on if a directional move will change the board for 
+        determining if the game has concluded
+        """
+
+        rows_len = self.x_length if direction.value[0] else self.y_length
+
+        for i in range(rows_len):
+            row = self.get_row(i, direction)
+            row_values = self.get_row_values(row, False)
+
+            # First criteria is any empty space encountered
+            if None in row_values:
+                return True
+            row_value_numbers = [i for i in row_values if not None]
+
+            for i, row_value in enumerate(row_value_numbers):
+                if i+1 == len(row_value_numbers):
+                    break
+                if row_value == row_value_numbers[i+1]:
+                    return True
+        
+        return False
+    
+    def check_game_over(self) -> bool:
+        """
+        Performs checks on each move direction to determine if the game is over
+        """
+        for direction in Direction:
+            if self.check_valid_move(direction):
+                return False
+        return True
+
+
+    def get_row_values(self, row: list[GameCell],
+                       condensed: bool = True) -> list[int]:
+        """
+        Returns a list of the values of the row.
+        `condensed` removes `None` and just returns the real values.
+        """
+        row_values: list[int] = []
+        for cell in row:
+            if not cell.value:
+                if condensed:
+                   continue
+            row_values.append(cell.value)
+        return row_values 
