@@ -51,10 +51,18 @@ class GameBoard:
         """
         if grid is None:
             grid = self.grid
+        
+        max_value = self.get_max_value(grid)
+        max_width = None
+        if max_value:
+            max_width = len(str(max_value))
+            
+        
         for row in grid:
             row_string = '|'
             for cell in row:
-                value = ' ' if cell.value is None else cell.value
+                value = ' ' if cell.value is None else str(cell.value)
+                value = value.rjust(max_width) if max_width else value
                 row_string = f'{row_string} ({value}) '
             print(f'{row_string}|')
 
@@ -130,10 +138,13 @@ class GameBoard:
                 else:
                     cell.value = None
 
-    def generate_tile(self, value: int = 2) -> bool:
+    def generate_tile(self, value: int = None) -> bool:
         """
-        Generates a tile randomly on an empty tile of the board
+        Generates a tile randomly on an empty tile of the board.
+        Follows the pattern of 90% being 2 and 10% being 4.
         """
+        if value is None:
+            value = 4 if randint(1,10) == 10 else 2
         empty_cells: list[GameCell] = []
         occupied_cells: list[GameCell] = []
         for row in self.grid:
@@ -150,3 +161,21 @@ class GameBoard:
             return True
         else:
             return False
+        
+    # Status
+    def get_max_value(self, grid = None) -> int:
+        """
+        Scans the board and returns the maximum value found
+        """
+        if grid is None:
+            grid = self.grid
+
+        max_value = 0
+        
+        for row in self.grid:
+            for cell in row:
+                if cell.value:
+                    if cell.value > max_value:
+                        max_value = cell.value
+
+        return max_value
