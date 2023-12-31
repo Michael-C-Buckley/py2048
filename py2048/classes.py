@@ -135,10 +135,14 @@ class GameBoard:
         cell.value = value
         return cell
     
-    def move_pieces(self, direction: Direction):
+    def move_pieces(self, direction: Direction) -> bool:
         """
         Moves all the pieces of the board in a direction per 2048's rules
         """
+
+        if not self.check_valid_move(direction):
+            return False
+
         self.last_grid = deepcopy(self.grid)
         dx, dy = direction.value
         limit = self.x_length if dx else self.y_length
@@ -163,6 +167,7 @@ class GameBoard:
                     cell.value = row_values.pop()
                 else:
                     cell.value = None
+        return True
 
     def undo(self):
         """
@@ -218,7 +223,7 @@ class GameBoard:
 
         return max_value
 
-    def check_valid_move(self, direction: Direction) -> bool:
+    def check_valid_move(self, direction: Direction, end: bool = False) -> bool:
         """
         Returns bool on if a directional move will change the board for 
         determining if the game has concluded
@@ -231,11 +236,23 @@ class GameBoard:
             row_values = self.get_row_values(row, False)
 
             # First criteria is any empty space encountered
-            if None in row_values:
-                return True
+            if end:
+                if None in row_values:
+                    return True
+
+            # Can the existing pieces move
+            found_none = False
+            for row_value in reversed(row_values):
+                if row_value is None:
+                    found_none = True
+                elif row_value is not None and found_none:
+                    return True
+            
             row_value_numbers = [i for i in row_values if not None]
 
             for i, row_value in enumerate(row_value_numbers):
+                if row_value is None:
+                    continue
                 if i+1 == len(row_value_numbers):
                     break
                 if row_value == row_value_numbers[i+1]:
@@ -248,7 +265,7 @@ class GameBoard:
         Performs checks on each move direction to determine if the game is over
         """
         for direction in Direction:
-            if self.check_valid_move(direction):
+            if self.check_valid_move(direction, True):
                 return False
         return True
 

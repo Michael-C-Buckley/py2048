@@ -56,7 +56,8 @@ while running:
             if event.key == pygame.K_z:
                 game_board.undo()
             elif event.key in key_mapping:
-                game_board.move_pieces(key_mapping[event.key])
+                if not game_board.move_pieces(key_mapping[event.key]):
+                    continue
                 game_board.generate_tile()
                 
                 if game_board.check_game_over():
