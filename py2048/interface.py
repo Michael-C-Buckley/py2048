@@ -53,7 +53,9 @@ while running:
                 pygame.K_LEFT: Direction.LEFT,
                 pygame.K_RIGHT: Direction.RIGHT,
             }
-            if event.key in key_mapping:
+            if event.key == pygame.K_z:
+                game_board.undo()
+            elif event.key in key_mapping:
                 game_board.move_pieces(key_mapping[event.key])
                 game_board.generate_tile()
                 

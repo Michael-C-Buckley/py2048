@@ -1,6 +1,7 @@
 # 2048 Classes Module
 
 # Python Modules
+from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
 from random import randint
@@ -39,6 +40,7 @@ class GameCell:
 class GameBoard:
     def __init__(self, x: int = 4, y: int = 4) -> None:
         self.grid = [[GameCell(x_pos, y_pos) for x_pos in range(x)] for y_pos in range(y)]
+        self.last_grid = None
         self.x_length = x
         self.y_length = y
 
@@ -137,6 +139,7 @@ class GameBoard:
         """
         Moves all the pieces of the board in a direction per 2048's rules
         """
+        self.last_grid = deepcopy(self.grid)
         dx, dy = direction.value
         limit = self.x_length if dx else self.y_length
 
@@ -160,6 +163,16 @@ class GameBoard:
                     cell.value = row_values.pop()
                 else:
                     cell.value = None
+
+    def undo(self):
+        """
+        Undoes the last move
+        """
+        if self.last_grid is None:
+            return
+        
+        self.grid = self.last_grid
+        self.last_grid = None
 
     def generate_tile(self, value: int = None) -> bool:
         """
