@@ -151,7 +151,7 @@ class GameBoard:
             row = self.get_row(row_index, direction)
 
             row_values: list[int] = []
-            for cell in reversed(row):
+            for cell in row:
                 if cell.value is not None:
                     row_values.append(cell.value)
 
