@@ -36,9 +36,9 @@ game_board.generate_tile()
 
 # Set up the display
 screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
-pygame.display.set_caption("2048")
-tile_font = pygame.font.SysFont("arial", 36)
-score_font = pygame.font.SysFont("arial", 18)
+pygame.display.set_caption('2048')
+tile_font = pygame.font.SysFont('arial', 36)
+score_font = pygame.font.SysFont('arial', 18)
 
 # Main game loop
 running = True
@@ -79,7 +79,7 @@ while running:
                 screen.blit(text_surface, text_rect)
 
     # Score Display
-    score_surface = score_font.render(f"Score: {game_board.score}", True, (0, 0, 0))
+    score_surface = score_font.render(f'Score: {game_board.score}', True, (0, 0, 0))
     score_rect = score_surface.get_rect(topright=(SCREEN_SIZE - 20, 10))
     screen.blit(score_surface, score_rect)
 

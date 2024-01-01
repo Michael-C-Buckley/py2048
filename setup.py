@@ -23,5 +23,5 @@ setup(
     install_requires=[
         'pygame'
     ],
-    keywords=['python','networking','network','mac','oui','ieee']
+    keywords=['2048','game']
 )
