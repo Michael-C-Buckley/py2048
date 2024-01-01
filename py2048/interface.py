@@ -27,7 +27,6 @@ def hex_to_rgb(color_input: str) -> tuple[int, int, int]:
 # Constants
 SCREEN_SIZE = 600
 TILE_SIZE = SCREEN_SIZE // 4
-FONT_SIZE = 36
 TILE_COLORS = {k:hex_to_rgb(v) for k,v in hex_color_map.items()}
 BACKGROUND_COLOR = TILE_COLORS.get(None)
 
@@ -38,7 +37,8 @@ game_board.generate_tile()
 # Set up the display
 screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
 pygame.display.set_caption("2048")
-font = pygame.font.SysFont("arial", FONT_SIZE)
+tile_font = pygame.font.SysFont("arial", 36)
+score_font = pygame.font.SysFont("arial", 18)
 
 # Main game loop
 running = True
@@ -74,12 +74,12 @@ while running:
 
             # Draw the number on the tile
             if cell.value is not None:
-                text_surface = font.render(str(cell.value), True, (0, 0, 0))
+                text_surface = tile_font.render(str(cell.value), True, (0, 0, 0))
                 text_rect = text_surface.get_rect(center=(x * TILE_SIZE + TILE_SIZE // 2, y * TILE_SIZE + TILE_SIZE // 2))
                 screen.blit(text_surface, text_rect)
 
     # Score Display
-    score_surface = font.render(f"Score: {game_board.score}", True, (0, 0, 0))
+    score_surface = score_font.render(f"Score: {game_board.score}", True, (0, 0, 0))
     score_rect = score_surface.get_rect(topright=(SCREEN_SIZE - 20, 10))
     screen.blit(score_surface, score_rect)
 
