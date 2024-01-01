@@ -78,6 +78,11 @@ while running:
                 text_rect = text_surface.get_rect(center=(x * TILE_SIZE + TILE_SIZE // 2, y * TILE_SIZE + TILE_SIZE // 2))
                 screen.blit(text_surface, text_rect)
 
+    # Score Display
+    score_surface = font.render(f"Score: {game_board.score}", True, (0, 0, 0))
+    score_rect = score_surface.get_rect(topright=(SCREEN_SIZE - 20, 10))
+    screen.blit(score_surface, score_rect)
+
     pygame.display.flip()
 
 pygame.quit()

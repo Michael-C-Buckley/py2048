@@ -41,6 +41,7 @@ class GameBoard:
     def __init__(self, x: int = 4, y: int = 4) -> None:
         self.grid = [[GameCell(x_pos, y_pos) for x_pos in range(x)] for y_pos in range(y)]
         self.last_grid = None
+        self.score = 0
         self.x_length = x
         self.y_length = y
 
@@ -186,6 +187,8 @@ class GameBoard:
         """
         if value is None:
             value = 4 if randint(1,10) == 10 else 2
+
+        self.score = self.score + value
 
         empty_cells: list[GameCell] = []
         occupied_cells: list[GameCell] = []
