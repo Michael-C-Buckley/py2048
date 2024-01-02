@@ -165,7 +165,7 @@ class GameBoard:
             # reiterate, translate values
             for cell in reversed(row):
                 if row_values:
-                    cell.value = row_values.pop()
+                    cell.value = row_values.pop(0)
                 else:
                     cell.value = None
         return True
