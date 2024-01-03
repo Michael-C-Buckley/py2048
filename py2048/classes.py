@@ -164,10 +164,8 @@ class GameBoard:
                 
             # reiterate, translate values
             for cell in reversed(row):
-                if row_values:
-                    cell.value = row_values.pop(0)
-                else:
-                    cell.value = None
+                cell.value = row_values.pop(-1) if row_values else None
+
         return True
 
     def undo(self):
