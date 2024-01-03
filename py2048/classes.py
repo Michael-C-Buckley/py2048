@@ -154,17 +154,18 @@ class GameBoard:
             row_values: list[int] = []
             for cell in row:
                 if cell.value is not None:
-                    row_values.append(cell.value)
+                    row_values.insert(0, cell.value)
 
             # Condense adjacent values
             for i, value in enumerate(row_values):
                 if i+1 < len(row_values): 
                     if value == row_values[i+1]:
                         row_values[i] = value + row_values.pop(i+1)
+                        print(f'{value} - {i} - {row_values[i]}')
                 
             # reiterate, translate values
             for cell in reversed(row):
-                cell.value = row_values.pop(-1) if row_values else None
+                cell.value = row_values.pop(0) if row_values else None
 
         return True
 

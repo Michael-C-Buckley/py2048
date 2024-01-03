@@ -32,7 +32,10 @@ BACKGROUND_COLOR = TILE_COLORS.get(None)
 
 pygame.init()
 game_board = GameBoard(4, 4)
-game_board.generate_tile()
+# game_board.generate_tile()
+for i in range(3):
+    game_board.set_cell(i, 0, 2)
+game_board.set_cell(3, 0, 4)
 
 # Set up the display
 screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
@@ -61,7 +64,7 @@ while running:
                 game_board.generate_tile()
                 
                 if game_board.check_game_over():
-                    print('GAME OVER')
+                    print(f'GAME OVER - Final Score: {game_board.score}')
                     running = False
                     
 
