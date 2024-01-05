@@ -32,10 +32,7 @@ BACKGROUND_COLOR = TILE_COLORS.get(None)
 
 pygame.init()
 game_board = GameBoard(4, 4)
-# game_board.generate_tile()
-for i in range(3):
-    game_board.set_cell(i, 0, 2)
-game_board.set_cell(3, 0, 4)
+game_board.generate_tile()
 
 # Set up the display
 screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
