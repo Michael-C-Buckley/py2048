@@ -1,5 +1,0 @@
-setup.py
-Py2048.egg-info/PKG-INFO
-Py2048.egg-info/SOURCES.txt
-Py2048.egg-info/dependency_links.txt
-Py2048.egg-info/top_level.txt
