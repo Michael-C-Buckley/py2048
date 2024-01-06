@@ -161,7 +161,6 @@ class GameBoard:
                 if i+1 < len(row_values): 
                     if value == row_values[i+1]:
                         row_values[i] = value + row_values.pop(i+1)
-                        print(f'{value} - {i} - {row_values[i]}')
                 
             # reiterate, translate values
             for cell in reversed(row):
